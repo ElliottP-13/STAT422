@@ -88,8 +88,23 @@ random sample of completion times from this distribution.
 
 
 ## Solution
+1. For $x > 0 ; \Theta > 0$:
+\begin{align*}
+  F_{X_{(1)}}(x) &= P(X_{(1)} \leq x)
+   = 1 - P(X_{(1)} \geq x)
+   = 1 - P(X_i \geq x \; \forall i) \\
+   &= 1 - \prod_{i=1}^n P(X_i \geq x) 
+   = 1 - \prod_{i=1}^n 1 - P(X_i \leq x) 
+   = 1 - \prod_{i=1}^n 1 - F_{X_i}(x) \\
+   &= 1 - (1 - F_{X_i}(x))^n \\
+   &= 1 - (1 - e^{-x-\Theta})^n \\
+\end{align*}
 
+2. 
+$$f_X(x) = \frac{d}{dx}F_X(x) = \frac{d}{dx} (1 - (1 - e^{-x-\Theta})^n ) = n (1 - e^{-x-\Theta})^{n-1}e^{-x-\Theta} $$
 
-
+3. First we ask what does $X_{(1)}$ physically represent? The minimum. So $X_{(1)}$ is the minimum amount of time it takes any of the (sampled) UPS store employees to assemble a box.
+Presumably UPS wants to assemble the most boxes possible, and thus wants to reduce the amount of time it takes to assemble a box, so the manager could use this information to compare say different training programs or something.
+It also could be  useful for time estimation, the manager should not expect that workers can go faster than the minimum time and could use $\mathbb{E}[X_{(1)}]$ to make more realistic deadlines for their workers. 
 
 
