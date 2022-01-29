@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width = 4, fig.height = 4)
 # Problem 1
 ## Statement
 
-The amount of time (in hours), $X$, needed by a local repair shop, Rusts ‘R Us, to
+The amount of time (in hours), $X$, needed by a local repair shop, Rusts 'R Us, to
 repair a randomly selected piece of equipment is assumed to be an exponential random
 variable with pdf
 $$
@@ -28,16 +28,38 @@ and mgf $m_X(t) = (1-\lambda t)^{-1}$.
 
 2. Identify the unknown parameter and explain in words what the parameter represents in this scenario
 
-3. In a random sample of 5 repair times, Rusts ’R Us observes the following values (in hours): 
+3. In a random sample of 5 repair times, Rusts 'R Us observes the following values (in hours): 
 14, 6, 3, 4, 1.5. 
 Explain in words what $n$, $X_1 \dots X_n$, $\lambda$, and $x_1, \dots, x_n$
 are in this situation, and, if applicable, give the numerical values of each.
 
-4. Find the joint distribution of the random sample in part (c). 
+4. Find the joint distribution of the random sample in part (3). 
 List all assumptions made when finding this joint distribution and explain whether or not each is reasonable in this scenario.
 
 ## Solution
 
+1. $X$ is the amount of time Rusts 'R Us takes to repair a piece of equipment. 
+$X$ is a random variable because the amount of time it takes depends on the equipment
+which is randomly selected.
+
+2. The unknown parameter is $\lambda$ which is the average amount of time (mean) it takes
+Rusts 'R Us to repair a piece of equipment.
+
+3. $n$ is the total number of samples, $n = 5$.
+$X_1 \dots X_n$ is the time it takes to repair each piece of equipment (random variable),
+$X_i =$ time to repair ith piece of equipment.
+$\lambda$ is the parameter of exponential distribution, it is the mean value of the distribution
+or the mean amount of time it takes to repair;
+we do not know the real value of $\lambda$, so the closest we can do is to estimate based on our 5 observations:
+$\hat{\lambda} = 5.7$.
+$x_1, \dots, x_n$ are the observed amount of time it took to repair each piece of equipment,
+$x_1, x_2, x_3, x_4, x_5 = 14, 6, 3, 4, 1.5$
+
+4. Assume that amount of time it takes to repair each piece of equipment
+($X_1, X_2, X_3, X_4, X_5$) is a random sample from the same exponential distribution (iid) that is given above. 
+
+Then the joint distribution is:
+$$f_{X_1, X_2, X_3, X_4, X_5}(x_1, x_2, x_3, x_4, x_5) = \prod_{i=1}^5 f_{X_i}(x_i) = \prod_{i=1}^5 1/\lambda e^{-x_i/\lambda} = 1/\lambda ^ 5 e^{-28.5/\lambda} $$
 
 
 
@@ -65,7 +87,7 @@ random sample of completion times from this distribution.
 3. Give an example of how the pdf of $X_{(1)}$ might be used by a UPS store manager and explain why it would be useful.
 
 
-
+## Solution
 
 
 
