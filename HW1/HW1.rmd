@@ -59,7 +59,7 @@ $x_1, x_2, x_3, x_4, x_5 = 14, 6, 3, 4, 1.5$
 ($X_1, X_2, X_3, X_4, X_5$) is a random sample from the same exponential distribution (iid) that is given above. 
 
 Then the joint distribution is:
-$$f_{X_1, X_2, X_3, X_4, X_5}(x_1, x_2, x_3, x_4, x_5) = \prod_{i=1}^5 f_{X_i}(x_i) = \prod_{i=1}^5 1/\lambda e^{-x_i/\lambda} = 1/\lambda ^ 5 e^{-28.5/\lambda} $$
+$$f_{X_1, X_2, X_3, X_4, X_5}(x_1, x_2, x_3, x_4, x_5) = \prod_{i=1}^5 f_{X_i}(x_i) = \prod_{i=1}^5 1/\lambda e^{-x_i/\lambda} = 1/\lambda ^ 5 e^{-28.5/\lambda} I_{(\lambda, \infty)}(x) $$
 
 
 
@@ -88,7 +88,9 @@ random sample of completion times from this distribution.
 
 
 ## Solution
-1. For $x > 0 ; \Theta > 0$:
+1. We first need to find $F_X(x)$ by integration:
+$$F_X(x) = \int_{-\infty}^x f_X(y) dy = \int_{\Theta}^x e^{-y-\Theta} dy = \left( -e^{-y-\Theta} \right]_{\Theta}^{x} = -e^{-x-\Theta} + e^{-2\Theta}$$
+Then we can compute $F_{X_{(1)}}(x)$:
 \begin{align*}
   F_{X_{(1)}}(x) &= P(X_{(1)} \leq x)
    = 1 - P(X_{(1)} \geq x)
@@ -97,14 +99,14 @@ random sample of completion times from this distribution.
    = 1 - \prod_{i=1}^n 1 - P(X_i \leq x) 
    = 1 - \prod_{i=1}^n 1 - F_{X_i}(x) \\
    &= 1 - (1 - F_{X_i}(x))^n \\
-   &= 1 - (1 - e^{-x-\Theta})^n \\
+   &= 1 - (1 + e^{-x-\Theta} - e^{-2\Theta})^n \\
 \end{align*}
 
 2. 
-$$f_X(x) = \frac{d}{dx}F_X(x) = \frac{d}{dx} (1 - (1 - e^{-x-\Theta})^n ) = n (1 - e^{-x-\Theta})^{n-1}e^{-x-\Theta} $$
+$$f_{X_{(1)}}(x) = \frac{d}{dx}F_{X_{(1)}}(x) = \frac{d}{dx} (1 + e^{-x-\Theta} - e^{-2\Theta})^n ) = n (1 + e^{-x-\Theta} - e^{-2\Theta})^{n-1}e^{-x-\Theta} I_{(\Theta, \infty)}(x)$$
 
 3. First we ask what does $X_{(1)}$ physically represent? The minimum. So $X_{(1)}$ is the minimum amount of time it takes any of the (sampled) UPS store employees to assemble a box.
 Presumably UPS wants to assemble the most boxes possible, and thus wants to reduce the amount of time it takes to assemble a box, so the manager could use this information to compare say different training programs or something.
-It also could be  useful for time estimation, the manager should not expect that workers can go faster than the minimum time and could use $\mathbb{E}[X_{(1)}]$ to make more realistic deadlines for their workers. 
+It also could be  useful for time estimation, the manager should not expect that workers can go faster than the minimum time and could use $\mathbb{E}[X_{(1)}]$ (which we can get from $f_{X_{(1)}}(x)$) to make more realistic deadlines for their workers. 
 
 
