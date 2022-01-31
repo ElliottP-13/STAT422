@@ -72,7 +72,7 @@ has the following pdf :
 
 $$
 f_X(x) = \begin{cases}
-e^{-x-\Theta} & x > 0; \Theta >0 \\
+e^{-(x-\Theta)} & x > 0; \Theta >0 \\
 0 & otherwise
 \end{cases}
 $$
@@ -89,7 +89,7 @@ random sample of completion times from this distribution.
 
 ## Solution
 1. We first need to find $F_X(x)$ by integration:
-$$F_X(x) = \int_{-\infty}^x f_X(y) dy = \int_{\Theta}^x e^{-y-\Theta} dy = \left( -e^{-y-\Theta} \right]_{\Theta}^{x} = -e^{-x-\Theta} + e^{-2\Theta}$$
+$$F_X(x) = \int_{-\infty}^x f_X(y) dy = \int_{\Theta}^x e^{-(y-\Theta)} dy = \left( -e^{-y+\Theta} \right]_{\Theta}^{x} = -e^{-x+\Theta} + e^{0} = -e^{-x+\Theta} + 1$$
 Then we can compute $F_{X_{(1)}}(x)$:
 \begin{align*}
   F_{X_{(1)}}(x) &= P(X_{(1)} \leq x)
@@ -98,12 +98,13 @@ Then we can compute $F_{X_{(1)}}(x)$:
    &= 1 - \prod_{i=1}^n P(X_i \geq x) 
    = 1 - \prod_{i=1}^n 1 - P(X_i \leq x) 
    = 1 - \prod_{i=1}^n 1 - F_{X_i}(x) \\
-   &= 1 - (1 - F_{X_i}(x))^n \\
-   &= 1 - (1 + e^{-x-\Theta} - e^{-2\Theta})^n \\
+   &= 1 - (1 - F_{X_i}(x))^n
+   = 1 - (1 + e^{-x+\Theta} - 1)^n \\
+   &= 1 - e^{n(-x+\Theta)} \\
 \end{align*}
 
 2. 
-$$f_{X_{(1)}}(x) = \frac{d}{dx}F_{X_{(1)}}(x) = \frac{d}{dx} (1 + e^{-x-\Theta} - e^{-2\Theta})^n ) = n (1 + e^{-x-\Theta} - e^{-2\Theta})^{n-1}e^{-x-\Theta} I_{(\Theta, \infty)}(x)$$
+$$f_{X_{(1)}}(x) = \frac{d}{dx}F_{X_{(1)}}(x) = \frac{d}{dx} (1 - e^{n(-x+\Theta)}) = n e^{n(-x+\Theta)} I_{(\Theta, \infty)}(x)$$
 
 3. First we ask what does $X_{(1)}$ physically represent? The minimum. So $X_{(1)}$ is the minimum amount of time it takes any of the (sampled) UPS store employees to assemble a box.
 Presumably UPS wants to assemble the most boxes possible, and thus wants to reduce the amount of time it takes to assemble a box, so the manager could use this information to compare say different training programs or something.
