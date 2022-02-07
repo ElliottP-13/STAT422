@@ -1,0 +1,169 @@
+---
+title: 'STAT 422: Homework #2'
+author: "Due, 2/8/22, _11:59pm_"
+output: pdf_document
+fontsize: 12 pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height = 4, out.width = "0.45\\linewidth", fig.align = "center")
+```
+
+
+# Problem 1
+## Statement
+Let the random variable $X$ denote the lifetime (in days) of cut roses delivered by a florist. Suppose $X$ has the following pdf: $$f_X(x)= \frac{2\theta^2}{x^3}I_{[\theta, \infty)}$$ In this case, the parameter $\theta$ depends on the amount of time between when the roses were harvested and when they were delivered. Suppose you receive a random sample of 12 roses for Valentine's Day, and you are interested in studying the lifetime of your flowers statistically.
+
+a. If you are interested in studying the lifetimes of your flowers statistically, why is it advantageous that your bouquet be stored in 12 separate vases, rather than a single vase? Explain.
+b. What is the probability _all_ of the roses you receive will live $(7 + \theta)$ days or less? 
+c. Find the pdf of $X_{(1)}$. 
+d. Set up, __but do not evaluate__, the expression to find the expected value of the minimum lifetime (in days) of a delivery of cut roses.
+e. __Without doing any calculations__, Explain, in words, why you might be more interested in estimating the quantity in part d) than $E(X)$. Your explanation should include the meanings of $E(X_{(1)})$ and $E(X)$ in the context of the scenario. 
+
+
+## Solution
+
+a. The flowers being in different vases allows us to claim that the points are sampled iid.
+If they were all in one vase, then the life of roses could influence each other (i.e if a rose dies there may be more nutrients, or something bad in the shared water, etc.) and they are not independent.
+b. Lets first compute $F_X(x)$:
+$$
+F_X(x) = \int_\theta ^x 2\theta^2 y^{-3} dy = \left( -4\theta^2 y^{-2} \right]_{\theta}^{x} = -4\theta^2 x^{-2} + -4\theta^2 \theta^{-2} = \frac{-4\theta^2}{ x^{2}} + 4
+$$
+Now, we can easily compute the probability that all the roses will live $(7 + \theta)$ days.
+For one flower, we have $P(X \geq 7 + \theta) = 1 - P(X \leq 7 + \theta) = 1 - F_X(7 + \theta) = -3 + \frac{4\theta^2}{ (7 + \theta)^{2}}$,
+then since each flower is sampled iid: we can compute the probability of all the flowers by: $(1 - F_X(7 + \theta))^{12} = (-3 + \frac{4\theta^2}{ (7 + \theta)^{2}}) ^{12}$
+
+c. We have from theorem 6.5: $f_{X_{(1)}}(x) = n (1 - F_X(x))^{n-1}f_X(x)$. Thus:
+$$
+f_{X_{(1)}}(x) = n \left( \frac{-4\theta^2}{ x^{2}} + 4 \right)^{n-1} \frac{2\theta^2}{x^3}I_{[\theta, \infty)}
+$$
+d.  We know that $\mathbb{E}[X_{(1)}] = \int_\theta ^\infty x f_{X_{(1)}}(x) dx$:
+$$
+\mathbb{E}[X_{(1)}] = \int_\theta ^\infty x f_{X_{(1)}}(x) dx = \int_\theta ^\infty x n \left( \frac{-4\theta^2}{ x^{2}} + 4 \right)^{n-1} \frac{2\theta^2}{x^3} dx = \int_\theta ^\infty n \left( \frac{-4\theta^2}{ x^{2}} + 4 \right)^{n-1} \frac{2\theta^2}{x^2} dx
+$$
+e. The $\mathbb{E}[X_{(1)}]$ is more useful than $\mathbb{E}[X]$ because we want to know when the first rose is going to die. I do not want to give my significant other a dead rose, but want to give 12 living roses. So I want to know $\mathbb{E}[X_{(1)}]$, which is the expected number of days before the first rose dies. While $\mathbb{E}[X]$ is the expected number of days for any rose to live, if I waited $\mathbb{E}[X]$ days, I would most likely have only 6 living roses, which is not what I want. 
+
+
+# Problem 2
+## Statement
+We derived the exact sampling distribution for two order statistics, $X_{(1)}$ and $X_{(n)}$ for a random sample of size $n$, $X_1,...,X_n$, where $X_i \overset{iid}{\sim}$ Uniform(0,1). We compared how these distributions changed as $n$ was varied between 2 and 100. Additionally, you should try deriving the same two distributions (i.e., $f_{X_{(1)}}, f_{X_{(n)}}$) for a general $n$ when the parent distribution for the RS is Exponential with a mean of 3 units. Below, the parent distribution is plotted. 
+
+```{r, exp, echo = FALSE}
+# plot the parent distribution X ~ Exp(3) from which the RS was taken
+# note the R parameterization uses 1/beta for the rate parameter - this is 
+# different from the back of your book
+curve(dexp(x, rate = 1/3), from = 0, to = 20, 
+      ylab = expression(f[X](x)), 
+      main = "pdf of X ~ exponential(3)")
+```
+
+```{r, order-exp, out.width = "0.8\\linewidth", fig.width=12, fig.height=9, echo = FALSE}
+# to use the functions below, highlight all of the code and run it 
+# in the R console. 
+
+# function for density of X(n) for a RS of size n from X ~ Exp(3)
+max_exp <- function(x, n){
+  fxn = (n/3)*(1-exp(-x/3))^{n-1}*exp(-x/3)
+  return(fxn)
+}
+
+# function for density of X(1) for a RS of size n from X ~ Exp(3)
+min_exp <- function(x, n){
+  fx1 = (n/3)*exp(-(n*x)/3)
+  return(fx1)
+}
+
+```    
+
+a. The following plots show the distributions of $X_{(1)}$ and $X_{(n)}$, each for $n = 2$ and $n = 100$. The plotting window separates the type of order statistic (i.e., the max and the min) and the linetype distinguishes between the sample sizes. Provide titles, y-axis labels, and legends for these two figures. Explain your reasoning for your choices in a few sentences. 
+
+```{r, order-figs, out.width = "0.8\\linewidth", fig.width=12, fig.height=6, echo = FALSE}
+# split the plotting window in to two columns
+par(mfrow = c(1,2))
+
+# plot the densities for X(1) for a RS of size 2 and 100
+curve(min_exp(x, n = 2), from = 0, to = 50, 
+      # ylab = expression(f[X[(1)]](x)), 
+      ylab = "",
+      # main = "Density of RV X_(1); X ~ Exp(3)", 
+      main = "",
+      lwd = 2)
+# add the n=100 density - note the add = T argument
+curve(min_exp(x, n = 100), from = 0, to = 50, 
+      add = T, lty = 2, lwd = 2)
+# legend("topright", legend = c("n = 2", "n = 100"), lty = c(1,2))
+
+# plot the densities for X(n) for a RS of size 100
+curve(max_exp(x, n = 2), from = 0, to = 50,
+      # ylab = expression(f[X[(n)]](x)), 
+      ylab = "",
+      main = "", lwd = 2)
+      # main = "Density of RV X_(n); X ~ Exp(3)", lwd = 2)
+# add the n=100 density - note the add = T argument
+curve(max_exp(x, n = 100), from = 0, to = 50,
+      add = T, lty = 2, lwd = 2)
+# legend("topright", legend = c("n = 2", "n = 100"), lty = c(1,2))
+```
+
+b. The following figures were generated by `plot_max_exp` and `plot_min_exp` (_found on the R file provided_). For each order statistic ($X_{(1)}$ and $X_{(n)}$, write a sentence about how the sample size affects the sampling distribution. 
+    
+    
+```{r two-b, out.width = "0.8\\linewidth", fig.width=12, fig.height=6, echo = FALSE}
+# function for density of X(n) for a RS of size n from X ~ Exp(3)
+plot_max_exp <- function(n_vec){
+  # grab the length of the vector with the sample sizes of interest
+  num_n <- length(n_vec)
+  # create colors for the different distributions
+  gray <- gray.colors(n = num_n, start = 0.8, end = 0)
+  # initialize a plotting window with distribuiton of X_(n) 
+  # for first n of interest
+  curve(max_exp(x, n = n_vec[1]), from = 0, to = 50,
+      ylab = expression(f[X[(n)]](x)), col = gray[1],
+      main = "Density of RV X_(n); X ~ Exp(3)", lwd = 2)
+  # add the rest of the densities for different n to the plot
+  for(i in 2:num_n){
+    curve(max_exp(x, n = n_vec[i]), from = 0, to = 50,
+      col = gray[i], add = T, lwd = 2)
+  }
+  legend("topright", legend = paste0("n = ", n_vec), 
+         col = gray, lwd = rep(2, num_n), cex = 0.85, bty = "n")
+}
+par(mfrow = c(1,2))
+# create a vector of sample sizes you are interested in 
+# investigating 
+n_vec <- c(2, 5, 10, 25, 50, 100, 200, 500, 1000)
+
+# compare the distributions
+plot_max_exp(n_vec)
+
+# function for density of X(1) for a RS of size n from X ~ Exp(3)
+plot_min_exp <- function(n_vec){
+  # grab the length of the vector with the sample sizes of interest
+  num_n <- length(n_vec)
+  # create colors for the different distributions
+  gray <- gray.colors(n = num_n, start = 0.8, end = 0)
+  # initialize a plotting window with distribuiton of X_(n) 
+  # for first n of interest
+  curve(min_exp(x, n = n_vec[1]), from = 0, to = 50,
+      ylab = expression(f[X[(1)]](x)), col = gray[1],
+      main = "Density of RV X_(1); X ~ Exp(3)", lwd = 2)
+  # add the rest of the densities for different n to the plot
+  for(i in 2:num_n){
+    curve(min_exp(x, n = n_vec[i]), from = 0, to = 50,
+      col = gray[i], add = T, lwd = 2)
+  }
+  legend("topright", legend = paste0("n = ", n_vec), 
+         col = gray, lwd = rep(2, num_n), cex = 0.85, bty = "n")
+}
+# create a vector of sample sizes you are interested in 
+# investigating 
+n_vec <- c(2, 5, 10, 25, 50, 100, 200, 500, 1000)
+
+# compare the distributions
+plot_min_exp(n_vec)
+``` 
+
+c. The code posted on the website, for this assignment, provides functions for computing the sampling distribution $X_{(1)}$ and $X_{(n)}$ for a RS of size $n$ `max_exp`, `min_exp`, and for comparing random samples of different sizes `plot_max_exp` and `plot_min_exp`. _Carefully_ walk though this code, reading the comments and pausing after executing each line to think about what the code did. Explore the sampling distributions for each of the order statistics for sample sizes you are interested in. _Write down at least one question you have about sampling distributions for order statistics or about any piece of the R code._
+d. Describe the steps you would take to generate an approximate sampling distribution for $X_{(n)}$, in words. _Note: you do not have to write any code._ 
+
+
