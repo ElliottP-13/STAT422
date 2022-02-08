@@ -49,6 +49,12 @@
 # RStudio files
 .Rproj.user/
 
+###############################################
+# VS Code Latex Stuff
+
+*.fdb_latexmk
+*.fls
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
