@@ -1,0 +1,105 @@
+\documentclass[10pt]{article}
+\usepackage{./EllioStyle}
+\usepackage{listings}
+\usepackage{multicol}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage[small]{titlesec}
+
+\lstdefinestyle{mystyle}{
+%    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\setlength{\parskip}{8pt}
+
+\title{Notesheet}
+\author{Elliott Pryor}
+\date{February 11}
+
+\rhead{Notesheet for Quiz 1}
+
+\begin{document}
+\multicols{2}
+
+
+\section{Distributions}
+Uniform: $f(x) = \frac{1}{b - a}; a \leq x \leq b$;\\
+$\bar{X} = \frac{a + b}{2}$;
+$Var(x) = \frac{(b-a)^2}{12}$\\
+$mgf = \frac{e^{tb} - e^{ta}}{t(b - a)}$
+
+Normal: $f(x) = \frac{1}{\sigma \sqrt{2 \pi}} \exp{\frac{-1}{2\sigma^2}(x - \mu)^2}$;\\
+$\bar{X} = \mu$;
+$Var(x) = \sigma^2$;\\
+$mgf = \exp{\mu t + \frac{t^2 \sigma^2}{2}}$;
+
+Exponential: $f(x) = \frac{1}{\beta} e^{\frac{-x}{\beta}}$;\\
+$\bar{X} = \beta$;
+$Var(x) = \beta^2$;\\
+$mgf = (1 = \beta t)^{-1}$;
+
+Gamma: $f(x) = \frac{1}{\Gamma(\alpha)\beta^\alpha} x^{\alpha - 1} e^{\frac{-x}{\beta}}$;\\
+$\bar{X} = \alpha \beta$;
+$Var(x) = \alpha \beta^2$;\\
+$mgf = (1 = \beta t)^{-\alpha}$;
+$\Gamma(\alpha) = \int_0^\infty y^{\alpha - 1}e^{-y}dy$
+
+Beta: $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha-1} (1 - x)^{\beta - 1}$;\\
+$\bar{X} = \frac{\alpha}{\alpha + \beta}$;\\
+$Var(x) = \frac{\alpha \beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}$;
+
+
+\section{Misc}
+\emph{Moment Generating Function}:\\
+$m_{X_1, \dots X_n} = \mathbb{E}[e^{tX_1 + \dots + tX_n}] \stackrel{iid}{=} \prod_{i=1}^n \mathbb{E}[e^{tX_i}]$
+
+Jacobian Method: $Y = g(X)$ with $g(X)$ monotone:\\
+$f_Y(y) = f_X(g^{-1}) \left| \frac{d}{dy} g^{-1}(y) \right|$.\\
+If $g(X)$ not monotone, then $f_Y$ is sum of piecewise monotone $g_i(X)$.
+
+\section{Order Statistics}
+Maximum:
+$F_{X_{(n)}}(x) = F_X(x) ^n$, \\ 
+$f_{X_{(n)}} = n (F_X(x))^{n-1}f_X(x)$ 
+
+Minimum:
+$F_{X_{(1)}}(x) = 1 - (1 - F_X(x))^n$, \\
+$f_{X_{(1)}}(x) = n (1 - F_X(x)) ^ {n-1} f_X(x)$
+
+General:\\
+$f_{X_{(j)}} = \frac{n!}{(j-1)!(n-j)!}F_X(x)^{j-1}f_X(x)(1-F_X(x))^{n-j}$
+
+
+\section{Normal, Chi-Square Distributions}
+Mean: $\bar{X} \sim N(\mu, \frac{\sigma^2}{n})$.
+
+Given $X \sim N(\mu, \sigma^2)$, $Z_i = \frac{X_i - \mu}{\sigma}$. Then:\\
+$\sum_{i=1}^n Z_i^2 \sim \chi^2_n$
+
+$\chi^2_\nu = Gamma(\frac{\nu}{2}, \beta=2)$, $\mathbb{E}[X] = \nu, Var(x) = 2\nu$.
+
+Theorem 7.3: $\bar{x}, S^2$ are independent, and:
+$$\frac{(n - 1)S^2}{\sigma^2} \sim \chi^2_{n-1} \quad \quad S^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2$$
+
+
+\end{document}
