@@ -101,5 +101,7 @@ $\chi^2_\nu = Gamma(\frac{\nu}{2}, \beta=2)$, $\mathbb{E}[X] = \nu, Var(x) = 2\n
 Theorem 7.3: $\bar{x}, S^2$ are independent, and:
 $$\frac{(n - 1)S^2}{\sigma^2} \sim \chi^2_{n-1} \quad \quad S^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2$$
 
-
+Student T Distribution: if $Z \sim N(0, 1)$ and $W \sim \chi^2_\nu$, and $Z, W$ independent. Then RV:
+$T = \frac{Z}{\sqrt{W / \nu}}$ follows the student T distribution. Where:\\
+$$f_T(x) = \frac{\Gamma(\frac{\nu + 1}{2})}{\Gamma(\frac{\nu}{2}) \sqrt{\pi \nu}}(1 + \frac{t^2}{\nu})^{-(\nu + 1)/2}$$
 \end{document}
