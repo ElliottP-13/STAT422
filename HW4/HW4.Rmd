@@ -1,0 +1,53 @@
+---
+title: 'STAT 422: Homework #4'
+author: 'Due: March 02, 2022 (midnight)'
+output: pdf_document
+fontsize: 12 pt
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height = 4, out.width = "0.45\\linewidth", fig.align = "center")
+```
+
+# Problem 1
+## Statement
+Assume $X_1,X_2 \hdots X_n$ are independent, normal random variables with $E(X_i) = \mu_i$ and $Var(X_i) = \sigma_i^2$, $i = 1,2,\hdots, n$. Recall that the mgf of the $N(\mu, \sigma^2)$ distribution is $\displaystyle e^{\mu t + \frac{t^2\sigma^2}{2}}$.
+
+
+a. Is $X_1,X_2 \hdots X_n$ a random sample, why or why not? 
+b. Find the distribution (including parameters) of $Y = \displaystyle \sum_{i = 1}^n X_i$ using mgfs. Explain, in words, what this result indicates and how you think it is useful. 
+c. THM 6.3 in your book is a generalization of the result you found in part (b). Explain, in words, how this builds upon the result you found in (b). 
+d. Give the distribution (including parameters) of each of the following random variables. Justify/explain each step in your path to determining each constructed RVs corresponding distribution. _You may use the theorems you proved in parts a-c and THM 6.3._ 
+    
+    - $\displaystyle 3X_1 + 5X_2$ 
+    - $\displaystyle Z_1^2 + Z_2^2$, where $\displaystyle Z_i = \frac{X_i - \mu_i}{\sigma_i}$ for $i =1,2,...,n$
+    - $\displaystyle \frac{Z_2 - Z_1}{\sqrt{2}}$, where $\displaystyle Z_i = \frac{X_i - \mu_i}{\sigma_i}$ for $i =1,2,...,n$
+    - $\displaystyle \frac{(Z_1 + Z_2)^2}{(Z_3 - Z_4)^2}$, where $\displaystyle Z_i = \frac{X_i - \mu_i}{\sigma_i}$ for $i =1,2,...,n$
+
+## Solution
+
+
+        
+# Problem 2
+## Statement
+Let $X_i$, $i = 1,2,3$ be independent with $N(i,i^2)$ distributions. That is, $X_1 \sim N(1,1^2)$, $X_2 \sim N(2,2^2)$, and $X_3 \sim N(3,3^2)$. For each of the following situations, use any subset of the $X_i$s to construct a random variable with the stated distribution. Justify why each constructed random variable follows the corresponding distribution of interest. 
+
+a. Standard normal distribution 
+b. Chi-squared distribution with 3 degrees of freedom. 
+c. $t$ distribution with 2 degrees of freedom
+d. $F$ distribution with 1 numerator and 2 denominator degrees of freedom
+    
+     
+## Solution
+
+
+
+
+
+
+
+
+
+
+
