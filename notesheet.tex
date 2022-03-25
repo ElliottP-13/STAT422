@@ -36,7 +36,7 @@
 \author{Elliott Pryor}
 \date{February 11}
 
-\rhead{Notesheet for Quiz 1}
+\rhead{Notesheet}
 
 \begin{document}
 \multicols{2}
@@ -104,4 +104,42 @@ $$\frac{(n - 1)S^2}{\sigma^2} \sim \chi^2_{n-1} \quad \quad S^2 = \frac{1}{n-1} 
 Student T Distribution: if $Z \sim N(0, 1)$ and $W \sim \chi^2_\nu$, and $Z, W$ independent. Then RV:
 $T = \frac{Z}{\sqrt{W / \nu}}$ follows the student T distribution. Where:\\
 $$f_T(x) = \frac{\Gamma(\frac{\nu + 1}{2})}{\Gamma(\frac{\nu}{2}) \sqrt{\pi \nu}}(1 + \frac{t^2}{\nu})^{-(\nu + 1)/2}$$
+
+
+Snedecor's F Distribution: if $U \sim \chi^2 _u$ and $V \sim \chi^2 _v$ and $U,V$ independent.
+Then $X = \frac{U / u}{V / v} \sim F_{u,v}$. Where:
+$$f_X(x; u, v) = \frac{\Gamma(\frac{u + v}{2})}{\Gamma(u/2)(v/2)} (\frac{u}{v}^{u/2}) x^{u/2 - 1} (1 + \frac{u}{v} * x)^{-(u + v)/2} \quad x > 0$$
+
+\section{Central Limit Theorem}
+Let $X_1, \dots, X_n$ be iid RV with expected value $\mu$ and variance $\sigma^2$ and assume that mgf exists.
+The cdf of $\bar{X}$ converges to a normal distribution as $n \to \infty$. 
+$Z_n = (\bar{X} - \mu)/(\sigma / \sqrt{n})$, then $\lim_{n \to \infty} P(Z_n \leq z) = P(Z \leq z)$ where $Z \sim N(0,1)$.
+I.e. the sampling distribution for the sample mean $\overset{a}{\sim} N(\mu, \sigma^2/n)$
+
+\section{Method of Moments}
+Goal is to match the pointwise moments to the distribution moments.
+Need one equation for each unknown.
+Set $\mathbb{E}[X] = \frac{1}{n} \sum x_i$, $\mathbb{E}[X^2] = \frac{1}{n} \sum x_i ^2$, $\dots$ for however many equations needed.
+
+\section{Maximum Likelihood Extimators}
+Compute likelihood function $\mathcal{L}(\theta | x) = \text{joint distribution} = f(x | \theta)$.
+Find $\hat{\theta}_{MLE}$ that maximizes $\mathcal{L}(\theta | x)$. 
+Solve by setting $\frac{\partial }{ \partial \theta_i} L(\theta | x) = 0$.
+Can also compute log-likelihood which is easier as $l(\theta | x) = \ln (L(\theta | x))$.
+Don't forget! Verify that critical point is the maximum by verifying second derivative at critical point $< 0$.
+
+\section{Mean Squared Error and Bias}
+$Bias_\theta(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta$.
+An estimator is said to be unbiased if $\mathbb{E}[\hat{\theta}] = \theta$.
+The mean squared error is: 
+$MSE_\theta(\hat(\theta)) = \mathbb{E}_\theta[(\hat{\theta} - \theta)^2] = Var_\theta(\hat{\theta}) + Bias_\theta(\hat{\theta})^2$.
+MSU combines accuracy and precision into one measure, if MSE increases the estimator is `less good'.
+
+Best unbiased estimator - Uniform Minimum Variance Unbiased Estimator (UMVUE) is $Bias_\theta (\hat{\theta}^*) = 0$ and 
+$Var(\hat{\theta}^*) \leq Var(\hat{\theta}) \quad \hat{\theta} \in \{ \hat{\theta} | Bias_\theta(\hat{\theta}) = 0 \}$.
+
+
+
+
+
 \end{document}
