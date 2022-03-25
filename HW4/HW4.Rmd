@@ -26,9 +26,36 @@ d. Give the distribution (including parameters) of each of the following random 
     - $\displaystyle \frac{(Z_1 + Z_2)^2}{(Z_3 - Z_4)^2}$, where $\displaystyle Z_i = \frac{X_i - \mu_i}{\sigma_i}$ for $i =1,2,...,n$
 
 ## Solution
+a. Yes, they are sampled independently and are random variables (given in the statement)
 
+b. Proof:
+\begin{align*}
+m_Y &= \mathbb{E}\left[e^{tY}\right]
+= \mathbb{E}\left[e^{t \sum_{i=1}^n X_i}\right]\\
+&= \mathbb{E}\left[ \prod_{i=1}^n e^{t X_i}\right]
+\overset{iid}{=} \prod_{i=1}^n \mathbb{E}\left[ e^{t X_i}\right]\\
+&= \prod_{i=1}^n e^{\mu_i t + \frac{t^2\sigma_i ^2}{2}} 
+= \prod_{i=1}^n e^{\mu_i t} e^{\frac{t^2\sigma_i ^2}{2}} \\
+&=  e^{\sum_{i=1}^n \mu_i t} e^{\sum_{i=1}^n \frac{t^2\sigma_i ^2}{2}} \\
+&=  e^{\sum_{i=1}^n \mu_i t + \frac{t^2\sigma_i ^2}{2}} \\
+\end{align*}
+This is the mgf of another normal distribution, with $\mu = \sum_{i=1} ^n \mu_i$, $\\sigma^2 = \sum_{i=1} ^n \sigma_i ^2$.
+So we observe that means and standard deviations add together when summing normal distributions.
 
-        
+c. This result in THM 6.3 allows for scalar multiples of normal distributions to be added together. This allows us to multiply by a constant and show that the result is still normal. We can also subtract distributions if the constant $< 0$. Our proof is just the special case where all the constants $=1$.
+
+d. 
+    - $3X_1 + 5X_2 \sim N(3 \mu_1 + 5 \mu_2, 9 \sigma_1 ^2 + 25 \sigma_2 ^2$. 
+    This is by theorem 6.3 with $a_1 = 3$ and $a_2 = 5$. 
+    - $Z_1^2 + Z_2^2 \sim \chi^2_2$ We know that $Z_i \sim N(0,1)$ for $i= 1,2$ so both $Z_1, Z_2$ are drawn from the same distribution $N(0,1)$. Then we can apply theorem 7.2 with $n = 2 $. 
+    - $\frac{Z_2 - Z_1}{\sqrt{2}} \sim N(0, 1)$. This is a funny trick of math. We have $Z_i \sim N(0,1)$. So this is from Theorem 6.3 with $a_1 = \frac{-1}{\sqrt{2}}$ and $a_2 = \frac{1}{\sqrt{2}}$, thus $\mu = a_1 * 0 + a_2 * 0 = 0$ and $\sigma^2 = a_1 ^2 + a_2^2 = 1/2 + 1/2 = 1$ so we get back to the same distribution :-)
+    - $\frac{(Z_1 + Z_2)^2}{(Z_3 - Z_4)^2} \sim F_{1,1}$, 
+    so first we note that $Z_1 + Z_2 \sim N(0, 2)$, and $Z_3 - Z_4 \sim N(0, 2)$ by theorem 6.3. 
+    So by theorem 7.2 $(Z_1 + Z_2)^2 = 2 * (A/\sqrt{2})^2 \sim \chi^2_1$ where $Z_1 + Z_2 = A \sim N(0,2)$, so $A/\sqrt{2} \sim N(0,1)$. 
+    Similarly $(Z_3 + Z_4)^2 = 2 * (B/\sqrt{2})^2 \sim \chi^2_1$ where $Z_3 - Z_4 = B \sim N(0,2)$, so $B/\sqrt{2} \sim N(0,1)$. 
+    So we have $\frac{2 (A/\sqrt{2})^2}{ 2(B/\sqrt{2})^2} = \frac{ (A/\sqrt{2})^2}{(B/\sqrt{2})^2}$.
+    Since $(A/\sqrt{2})^2 \sim \chi^2_1$ and $(B/\sqrt{2})^2 \sim \chi^2_1$ we can use Def 7.3 to get that $\frac{(A/\sqrt{2})^2}{(B/\sqrt{2})^2} \sim F_{1,1}$ (Snedecor's F distribution with u=v=1 degrees of freedom)
+    
 # Problem 2
 ## Statement
 Let $X_i$, $i = 1,2,3$ be independent with $N(i,i^2)$ distributions. That is, $X_1 \sim N(1,1^2)$, $X_2 \sim N(2,2^2)$, and $X_3 \sim N(3,3^2)$. For each of the following situations, use any subset of the $X_i$s to construct a random variable with the stated distribution. Justify why each constructed random variable follows the corresponding distribution of interest. 
@@ -40,8 +67,27 @@ d. $F$ distribution with 1 numerator and 2 denominator degrees of freedom
     
      
 ## Solution
-
-
+a. $\frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1 \sim N(0,1)$ we have $\mu = \frac{2}{\sqrt{8}} - \frac{2}{\sqrt{8}} = 0$,
+and $\sigma^2 = \frac{4}{8} + \frac{4}{8} = 1$.
+b. $\sum_{i=1}^3 \left( \frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1 \right)^2 = 3 * \left( \frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1 \right)^2 \sim \chi^2_3$. 
+From a we have that $\frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1 \sim N(0,1)$. 
+Then we have a sum of 3 squared standard normal distributions, which by theorem 7.2 is $\chi^2_3$.
+c. From b we can easily get $2 * \left( \frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1 \right)^2 \sim \chi^2_2$. 
+Now it would be nice to re-use our solution from for our N(0,1), but we can't do that because we would have just $\frac{1}{\frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1}$, so we have to make a new one. 
+$\frac{1}{\sqrt{18}}X_3 - \frac{3}{\sqrt{18}}X_1 \sim N(0,1)$, we have $\mu = \frac{3}{\sqrt{18}} - \frac{3}{\sqrt{18}} = 0$ and $\sigma^2 = \frac{9}{18} + \frac{9}{18} = 1$.
+So now we can put this together to get: (note that $\sqrt{8} * \sqrt{2} = \sqrt{16} = 4$ for dividing by degrees of freedom)
+$$
+\frac{\frac{1}{\sqrt{18}}X_3 - \frac{3}{\sqrt{18}}X_1}{2 * \sqrt{2} * \left( \frac{1}{4}X_2 - \frac{2}{4} X_1 \right)^2} \sim t_2
+$$
+d. Thankfully, this one is pretty easy to construct. 
+We can build a $\chi^2_2$ distribution pretty easily from the new $N(0,1)$ we just defined above the same way as we did in b.
+So we have: 
+$1 * \left( \frac{1}{\sqrt{18}}X_3 - \frac{3}{\sqrt{18}} \right)^2  \sim \chi^2_1$
+and from c: $2 * \left( \frac{1}{\sqrt{8}}X_2 - \frac{2}{\sqrt{8}} X_1 \right)^2 \sim \chi^2_2$.
+Thus putting it together 
+$$
+\frac{\left( \frac{1}{\sqrt{18}}X_3 - \frac{3}{\sqrt{18}} X_1 \right)^2}{2 * \sqrt{2} * \left( \frac{1}{4}X_2 - \frac{2}{4} X_1 \right)^2} \sim F_{1,2}
+$$
 
 
 
