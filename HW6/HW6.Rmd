@@ -18,11 +18,20 @@ Let $X_1,...,X_n$ be a random sample from the distribution with the following pd
    
 ## Solution
 
+a. Goal is to show that this is exponential family. 
+So we want to write $f(x;\theta) = h(x) c(\theta) \exp\left(\sum_{j=1}^k t_j(x)w_j(\theta) \right)$.
+\begin{align*}
+f(x;\theta) &= \prod_{i=1}^n \theta x_i^{\theta -1} \\
+&= \prod_{i=1}^n \theta \exp\left( (\theta -1) \ln(x_i) \right) \\
+&= \theta^n \exp\left( \sum_{i=1}^n \ln(x_i)(\theta - 1) \right) \\
+\end{align*}
+where $h(x) = 1, c(\theta) = \theta^n, t(x) = \sum \ln(x_i), w(\theta) = (\theta -1)$.
+Thus by the Exponential Family theorem: $\sum \ln(x_i)$ is a CSS.
 
-
-
-
-
+b. We can see this via Factorization theorem in a (hand wavy way). We show sufficiency but not completeness. So for completeness, we need a one-to-one function that maps $\sum \ln(x_i)$ to $\prod x_i$.
+We essentially did this in part a, we just now have to walk backwards. 
+$e^x$ is one-to-one. So we take $\exp(\sum \ln(x_i)) = \prod \exp(\ln(x_i)) = \prod_{i=1}^n x_i$
+As required :)
 
 
 
