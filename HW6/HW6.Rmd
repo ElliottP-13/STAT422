@@ -1,0 +1,46 @@
+---
+title: 'STAT 422: HW #6'
+author: 'Due: April 4, 2022, 11:59pm'
+output: pdf_document
+fontsize: 12 pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height = 4, out.width = "0.45\\linewidth", fig.align = "center")
+```
+
+# Problem 1
+## Statement
+Let $X_1,...,X_n$ be a random sample from the distribution with the following pdf: $$f(x;\theta) = \theta x^{\theta -1}I_{(0,1)}(x), \text{ where } \theta > 0$$
+
+  a. Find a complete sufficient statistic for $\theta$  
+  b. Using your answer in part (a), explain why $\displaystyle \prod_{i = 1}^n X_i$ is also a sufficient statistic for $\theta$. 
+   
+## Solution
+
+
+
+
+
+
+
+
+
+
+
+
+# Problem 2
+## Statement
+
+A real estate firm wants to estimate the rate of new houses sold in a week in Bozeman. Assume $X_1,...,X_n$ is a random sample of weekly house sales in Bozeman, where each $X_i$ is a Poisson random variable with mean $\mu$. The observed number of new houses sold per week for 5 randomly chosen weeks, were 2, 3, 3, 4, and 6. Find the best unbiased estimator (i.e., the UMVUE) of $\mu$ and its estimate. Show all work, and carefully explain why it is the UMVUE.    
+
+## Solution
+. 
+
+
+
+
+    
+
+
+  
