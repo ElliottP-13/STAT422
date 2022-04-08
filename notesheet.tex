@@ -9,6 +9,7 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \usepackage[small]{titlesec}
+\newtheorem{definition}{Definition}[section]
 
 \lstdefinestyle{mystyle}{
 %    backgroundcolor=\color{backcolour},   
@@ -133,10 +134,32 @@ $Bias_\theta(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta$.
 An estimator is said to be unbiased if $\mathbb{E}[\hat{\theta}] = \theta$.
 The mean squared error is: 
 $MSE_\theta(\hat(\theta)) = \mathbb{E}_\theta[(\hat{\theta} - \theta)^2] = Var_\theta(\hat{\theta}) + Bias_\theta(\hat{\theta})^2$.
-MSU combines accuracy and precision into one measure, if MSE increases the estimator is `less good'.
+MSE combines accuracy and precision into one measure, if MSE increases the estimator is `less good'.
 
 Best unbiased estimator - Uniform Minimum Variance Unbiased Estimator (UMVUE) is $Bias_\theta (\hat{\theta}^*) = 0$ and 
 $Var(\hat{\theta}^*) \leq Var(\hat{\theta}) \quad \hat{\theta} \in \{ \hat{\theta} | Bias_\theta(\hat{\theta}) = 0 \}$.
+
+
+\section{Sufficiency, Completeness, UMVUE}
+\begin{definition}[UMVUE]
+    An estimator $\hat{\theta}$ is UMVUE if: 
+    $Bias_\theta(\hat{\theta}) = 0$ and 
+    $Var(\hat{\theta}) \leq Var(\theta') \quad \forall \theta' \in \{\theta' | Bias_\theta(\theta') = 0\}$
+\end{definition}
+\begin{definition} [Sufficient]
+    Let $X_1, \dots, X_n$ be a random sample from a probability distribution with parameter $\theta$,
+    The statistic, $T(X)$ is said to be sufficient for $\theta$ if the conditional distribution of $(X_1, \dots, X_n) | T(X)$
+    does not depend on $\theta$.
+\end{definition}
+Factorization Theorem: let $f(x; \theta)$ be joint pdf of $X_1, \dots, X_n$. 
+A statistic is sufficient for $\theta$ is sufficient iff $\exists g(T(x); \theta), h(x)$ such that:
+$f(x; \theta) = g(T(x) ; \theta) * h(x)$. 
+\begin{definition}[Complete Statistic]
+    A statistic is complete if $\mathbb{E}[g(T)] = 0 \quad \forall \theta$ implies that $P(g(T) = 0) = 1 \quad \forall \theta$
+\end{definition}
+Exponential Family Theorem: Let $X_1, \dots, X_n$ be an iid RS from a pdf of the form
+$$f(x;\theta) = h(x) c(\theta) \exp \left( \sum_{j=1}^k t_j(x) w_j(\theta) \right)$$
+Then the set of statistics $T(X) = \sum_{i=1}^n t_1(X_i), \dots, \sum_{i=1}^n t_k(X_i)$ is complete and sufficient for $\theta$.
 
 
 

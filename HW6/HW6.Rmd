@@ -44,12 +44,35 @@ As required :)
 A real estate firm wants to estimate the rate of new houses sold in a week in Bozeman. Assume $X_1,...,X_n$ is a random sample of weekly house sales in Bozeman, where each $X_i$ is a Poisson random variable with mean $\mu$. The observed number of new houses sold per week for 5 randomly chosen weeks, were 2, 3, 3, 4, and 6. Find the best unbiased estimator (i.e., the UMVUE) of $\mu$ and its estimate. Show all work, and carefully explain why it is the UMVUE.    
 
 ## Solution
-. 
 
+First, what is the pdf of Poisson? $p(y) = \frac{\lambda^y e^{-y}}{y!}$.
+We want an UMVUE for $\lambda$. 
+First we want to check if it is exponential family.
 
+\begin{align*}
+p(y; \lambda) &= \prod_{i=1}^n \frac{\lambda^{y_i} e^{-y_i}}{y_i!}\\
+&= \prod_{i=1}^n \frac{1}{y_i!} \lambda^{y_i} e^{-y_i} \\
+&= \prod_{i=1}^n \frac{1}{y_i!} \exp( y_i \ln(\lambda) - y_i )\\
+&= \prod_{i=1}^n \frac{1}{y_i!} \exp( (\lambda - 1)y_i)\\
+&= \left(\prod_{i=1}^n \frac{1}{y_i!}\right) \left( \exp( \sum_{i=1}^n(\lambda - 1)y_i) \right)\\
+\end{align*}
 
+where $h(x) = \prod_{i=1}^n \frac{1}{y_i!}, c(\theta) = 1, t(x) = \sum y_i, w(\theta) = (\lambda -1)$.
+Thus by the Exponential Family theorem: $\sum y_i$ is a CSS.
 
-    
+Next we need $g(\sum y_i)$ such that $\mathbb{E}[g(\sum y_i)] = \lambda$.
+Pick $g(\sum_{i=1}^n y_i) = 1/n \sum_{i=1}^n y_i$. 
+
+\begin{align*}
+\mathbb{E}[g(\sum y_i)] &= \mathbb{E}[1/n \sum_{i=1}^n y_i] \\
+&= 1/n \sum_{i=1}^n \mathbb{E}[y_i] \\
+&= 1/n \sum_{i=1}^n \lambda \\
+&= \lambda
+\end{align*}
+
+As required,
+where step three follows from the expected value of a poisson distribution.
+
 
 
   
