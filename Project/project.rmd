@@ -7,7 +7,74 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Code
+## Setup the data
 
+First we load the data from the CSV published on MSU website, we then perform
+some pre-processing to create counties_list and top_ten_counties_list. counties_list
+is a vector of length $n$ which is the number of samples. Each element in the vector
+is just a number indicating the county number. 
+For example, if Gallatin County has 2,134 students at MSU and is county 6, then there will 
+be 2,134 6's in the counties_list vector. top_ten_counties_list is just the counties_list
+subsetted to only contain the 10 most represented counties at MSU
+
+```{r}
+library(readr)
+counties <- read_csv("county.csv")
+counties = as.matrix(counties)[-c(59,58,57),] #get rid of row of NAs, unspecified counties, and total
+top_ten_counties <- counties_matrix[,1][order(counties_matrix[,2])][47:56]
+top_ten_counties <- rev(top_ten_counties)
+
+##All counties
+counties_list <- c()
+for(i in 1:dim(counties_matrix)[1]){
+  counties_list <- append(counties_list, 
+                          rep(i,
+                              times = counties_matrix[i,2])) #counties_matrix[i,1] 
+}
+##Top 10 counties
+top_ten_counties_list <- c()
+for(i in 1:length(top_ten_counties)){
+  top_ten_counties_list <- append(top_ten_counties_list,
+                                  rep(i,
+                                      counties_matrix[,2][which(counties_matrix[,1]==top_ten_counties[i])]))
+}
+```
+
+## Functions
+We declare some helper functions. dist computes the similarity between the two probabilities (histograms).
+We use the KL-Divergence of the bootstrap sample (P) to the true sample (Q) (KL-divergence is non-symmetric).
+We then also declare the function run_bootstraps that runs our experiments.
+```{r}
+dist <- function(P, Q){  # KL-Divergence
+  return (sum(P * log(P/Q)))
+}
+
+
+run_bootstraps <- function(reps, counties){
+  library(pracma)
+  n_list = c(50, 100, 500, 1000)
+  dists <- rep(0,times=length(n_list)*reps)
+  counter = 1
+  
+  for(i in 1:reps){
+    for(n in n_list){
+      our_sample <- sample(counties,30)
+      bootstrap_pop <- sample(our_sample, n, replace = TRUE)
+      dists[counter] = dist(bootstrap_pop, counties)
+      counter = counter + 1
+      #Stay tuned for the next episode
+    }
+  }
+  
+  return(rbind(rep(n_list, reps),dists))
+}
+```
+## Experiment
+We run our experiments.
+```{r}
+run_bootstraps(3, top_ten_counties_list)
+```
 
 
 
