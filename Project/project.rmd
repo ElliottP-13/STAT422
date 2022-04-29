@@ -46,9 +46,10 @@ We declare some helper functions. dist computes the similarity between the two p
 We use the KL-Divergence of the bootstrap sample (P) to the true sample (Q) (KL-divergence is non-symmetric).
 We then also declare the function run_bootstraps that runs our experiments.
 ```{r}
-dist <- function(P, Q){  # chisquare distance
-  return ((1/2)  * sum( (P - Q)^2 / (P + Q + 0.000000001)^2 ))  # add small number so not divide by zero
-  #return (sum(P * log(P/Q))) # KL-Divergence
+dist <- function(P, Q){  
+  eps = 0.0000000001  # add small number so not divide by zero
+  #return ((1/2)  * sum( (P - Q)^2 / (P + Q + eps)^2 ))  # chisquare distance
+  return (sum(P * log(P/(Q + eps) + eps))) # KL-Divergence
 }
 
 
