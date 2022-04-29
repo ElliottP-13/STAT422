@@ -22,22 +22,22 @@ subsetted to only contain the 10 most represented counties at MSU
 library(readr)
 counties <- read_csv("county.csv")
 counties = as.matrix(counties)[-c(59,58,57),] #get rid of row of NAs, unspecified counties, and total
-top_ten_counties <- counties_matrix[,1][order(counties_matrix[,2])][47:56]
+top_ten_counties <- counties[,1][order(counties[,2])][47:56]
 top_ten_counties <- rev(top_ten_counties)
 
 ##All counties
 counties_list <- c()
-for(i in 1:dim(counties_matrix)[1]){
+for(i in 1:dim(counties)[1]){
   counties_list <- append(counties_list, 
                           rep(i,
-                              times = counties_matrix[i,2])) #counties_matrix[i,1] 
+                              times = counties[i,2])) #counties_matrix[i,1] 
 }
 ##Top 10 counties
 top_ten_counties_list <- c()
 for(i in 1:length(top_ten_counties)){
   top_ten_counties_list <- append(top_ten_counties_list,
                                   rep(i,
-                                      counties_matrix[,2][which(counties_matrix[,1]==top_ten_counties[i])]))
+                                      counties[,2][which(counties[,1]==top_ten_counties[i])]))
 }
 ```
 
@@ -46,22 +46,27 @@ We declare some helper functions. dist computes the similarity between the two p
 We use the KL-Divergence of the bootstrap sample (P) to the true sample (Q) (KL-divergence is non-symmetric).
 We then also declare the function run_bootstraps that runs our experiments.
 ```{r}
-dist <- function(P, Q){  # KL-Divergence
-  return (sum(P * log(P/Q)))
+dist <- function(P, Q){  # chisquare distance
+  return ((1/2)  * sum( (P - Q)^2 / (P + Q + 0.000000001)^2 ))  # add small number so not divide by zero
+  #return (sum(P * log(P/Q))) # KL-Divergence
 }
 
 
 run_bootstraps <- function(reps, counties){
   library(pracma)
+  library(purrr)
   n_list = c(50, 100, 500, 1000)
   dists <- rep(0,times=length(n_list)*reps)
   counter = 1
+  
+  county_counts = unlist(map(seq.int(0, 57), ~ sum(counties == .x)))  / length(counties)
   
   for(i in 1:reps){
     for(n in n_list){
       our_sample <- sample(counties,30)
       bootstrap_pop <- sample(our_sample, n, replace = TRUE)
-      dists[counter] = dist(bootstrap_pop, counties)
+      bootstrap_counts = unlist(map(seq.int(0, 57), ~ sum(bootstrap_pop == .x)))/length(bootstrap_pop)
+      dists[counter] = dist(bootstrap_counts, county_counts)
       counter = counter + 1
       #Stay tuned for the next episode
     }
