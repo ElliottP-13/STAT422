@@ -73,52 +73,81 @@ print(paste0("The 95% confidence interval for sigma is ", lower_bound, " <= sigm
 
 c. The interval for 90% will be more narrow than 95%. If we think about it, we cut off $\alpha/2$ probability on both ends. If $\alpha$ is bigger, then we cut out more of a region and thus the region we keep is smaller. 
 
-## Problems related to power and power functions 
+# Problem 2
+## Statement
+An experimenter has prepared a drug dosage level that she claims will induce sleep for 80% of people suffering from insomnia. After examining the dosage, we think that her claims regarding the effectiveness of the dosage are inflated. In an attempt to provide statistical evidence against her claim, we administer her prescribed dosage to 20 insomniacs, and we observe $Y$, the number for which the drug dose induces sleep. We wish to test the hypothesis $H_0: p = 0.8$ versus the alternative $H_a: p > 0.8$ Assume that the rejection region $\{y \leq 12 \}$ is used.  
 
-1. **Graded for accuracy.** An experimenter has prepared a drug dosage level that she claims will induce sleep for 80% of people suffering from insomnia. After examining the dosage, we think that her claims regarding the effectiveness of the dosage are inflated. In an attempt to provide statistical evidence against her claim, we administer her prescribed dosage to 20 insomniacs, and we observe $Y$, the number for which the drug dose induces sleep. We wish to test the hypothesis $H_0: p = 0.8$ versus the alternative $H_a: p > 0.8$ Assume that the rejection region $\{y \leq 12 \}$ is used.  
+a. In terms of this problem, what is a Type I error? 
+b. Find the significance level,$\alpha$ of the test.
+c. In terms of this problem, what is a Type II error?
+d. Find the probability of a Type II error when $p = 0.6$
+e. Find the probability of a Type II error when $p = 0.4$
+f. Find the power for the following values of $p$ 
 
-    a. In terms of this problem, what is a Type I error? 
-    b. Find the significance level,$\alpha$ of the test.
-    c. In terms of this problem, what is a Type II error?
-    d. Find the probability of a Type II error when $p = 0.6$
-    e. Find the probability of a Type II error when $p = 0.4$
-    f. Find the power for the following values of $p$ 
-    
-        - $p = 0.4$
-        - $p = 0.5$
-        - $p = 0.6$
-        - $p = 0.7$
-    
-    g. Graph the power function in R. Provide the graph as well as the code used to produce it.
-    h. What is the power when $p = 0.8$? Why is this the same value as your answer to part (b)
-    i. What would happen to the power at $p=0.8$ if we change the rejection region to $\{y \leq 13\}$? What would happen to the power at $p=0.8$ if we change the rejection region to $\{y \leq 11\}$? Briefly explain why each of these changes occurrs. 
-    
-2.	A sample of size 1 is taken from an exponential($\theta$) distribution. To test $H_0: \theta = 1$ against $H_a: \theta > 1$, the test to be used is $\zeta(X) =  \begin{cases} 1 & X > 2\\ 0 & X \leq 2\end{cases}$
+    - $p = 0.4$
+    - $p = 0.5$
+    - $p = 0.6$
+    - $p = 0.7$
 
-    a. Find the significance level of the test.
-    b. Derive the power function. 
-    
-## Problems related to hypothesis tests 
+g. Graph the power function in R. Provide the graph as well as the code used to produce it.
+h. What is the power when $p = 0.8$? Why is this the same value as your answer to part (b)
+i. What would happen to the power at $p=0.8$ if we change the rejection region to $\{y \leq 13\}$? What would happen to the power at $p=0.8$ if we change the rejection region to $\{y \leq 11\}$? Briefly explain why each of these changes occurrs. 
 
-1. Let $X_1,...,X_n$ be a random sample from the Gamma($\alpha$,$\beta$) distribution.
+## Solution
+a. Type 1 error is when we reject $H_0$ if it is actually true.
+This is if more than 80% of tested insomniacs fall asleep when the drug is actually less than 80% effective.
+b. This follows a binomial distribution. We reject the null if we observe $\geq 12$ insomniacs falling asleep. 
+We want to know the probability of $P(X \leq 12)$ if $X \sim Binomial(p = 0.8, n = 20)$ which is the probability that we reject the null hypothesis. 
+This is computed iwth following R code:
+```{r}
+alpha = sum(dbinom(0:12, 20, 0.8))
+print(alpha)
+```
+c. Type 2 error is when we fail to reject $H_0$ if it is actually false. This is if fewer than 80% of tested insomniacs fall asleep and the drug is actually 80% effective.
+d. This is the probability that we observe more than 12 insomiacs falling asleep if $p=0.6$. This is $P(X > 12) \quad X\sim Binomial(p=0.6, n = 20)$. This is computed by
+```{r}
+probability_type2 = sum(dbinom(13:20, 20, 0.6))
+print(probability_type2)
+```
+e. Similarly but $p=0.4$
+```{r}
+probability_type2 = sum(dbinom(13:20, 20, 0.4))
+print(probability_type2)
+```
+f. The power of the alternate hypothesis is 1 - Probability of type 2 error
 
-    a. Assuming that $\alpha$ (the _shape_ parameter in the distriubtion, not the alpha that defines the Type I error rate) is known, derive the likelihood ratio test (LRT) for testing $H_0: \beta= \beta_0$ versus $H_a: \beta \neq \beta_0$. Use the large-sample approximation for the LRT to find the critical value for the test.
-    b. The Kew Observatory in West London has been collecting rainfall data since around 1700. For 1700-1950, the July rainfall (in mm) can be modeled using a Gamma distribution with $\alpha = 5$ and $\beta = 12.2$. For 1991-2008, the data are assumed to follow a Gamma distribution with $\alpha = 5$, but researchers suspect that $\beta$ may have changed. For 1991-2008 (18 years), the average July rainfall was 44 mm. Assuming that $\alpha = 5$, do these data indicate that the $\beta$ parameter is no longer 12.2? Use the test you derived in part (a) to test these hypotheses at the 0.01 significance level. Be sure to also find the corresponding $p-value$ for the study and write a conclusion beyond reject $H_0$ or fail to reject $H_0$. 
+```{r}
+probability_type2_4 = sum(dbinom(13:20, 20, 0.4))
+probability_type2_5 = sum(dbinom(13:20, 20, 0.5))
+probability_type2_6 = sum(dbinom(13:20, 20, 0.6))
+probability_type2_7 = sum(dbinom(13:20, 20, 0.7))
+cat("P = 0.4: " , 1 - probability_type2_4, 
+             "\nP = 0.5: " , 1 - probability_type2_5, 
+             "\nP = 0.6: " , 1 - probability_type2_6, 
+             "\nP = 0.7: " , 1 - probability_type2_7)
+```
 
-2. Suppose that $X$ is one observation from the distribution with pdf     
-$\displaystyle f(x;\lambda) = \lambda e^{-\lambda x}I_{(0,\infty)}(x)$ and $\lambda > 0$. 
-Consider testing $H_0: \lambda = 1$ versus $H_a: \lambda \neq 1$. Let $\zeta(X)$ be the critical function $$ \zeta(X) = \begin{cases} 1 & x < 1/2 \text{ or } x > 2\\ 0 & else \end{cases}$$ 
+g.
+```{r}
+fun <- function(x){
+  type2 = sum(dbinom(13:20, 20, x))
+  return(1 - type2)
+}
+curve(Vectorize(fun)(x), from = 0, to=1, ylab='power', xlab='p')
+```
+h. This is the same as in (b) because when $p=0.8$ the null hypothesis is true.
+So this becomes the probability we reject the null hypothesis given that it is true (type 1 error).
+```{r}
+probability_type2_8 = sum(dbinom(13:20, 20, 0.8))
+cat("Power, p=0.8 : ", 1 - probability_type2_8)
+```
+i. The power increases ($\alpha$ increases) if we change the rejection region. If the region is $y \leq 13$ this makes it easier to reject, thus making the confidence smaller. If the region is $y \leq 11$ it makes it harder to reject, so $\alpha$ decreases making it more likely that the test is correct. 
+```{r}
+probability_type2_13 = sum(dbinom(14:20, 20, 0.8))
+probability_type2_11 = sum(dbinom(12:20, 20, 0.8))
+cat("Y <= 13: " , 1 - probability_type2_13,
+    "\nY <= 11: " , 1 - probability_type2_11
+)
+```
+```
 
-    a. Find the power function of the test corresponding to $\zeta$.
-    b. What is the significance level of the test determined by $\zeta$?
-    
-3. In a given city it is assumed that the number of automobile accidents in a given year follows a Poisson distribution. In past years the average number of accidents per year was 15, and this year the number of accidents was 10. 
-
-    a. Is it justified to claim that the accident rate has dropped? Justify your answer using sound statistical evidence and reasoning (i.e., find a _p-value_ for the test and interpret the _p-value_ in the context of the problem). 
-    b. What else should you provide to complete your summary of statistical evidence? Briefly describe how you could obtain this information. 
-    
-3. A sample of size 1 is taken from a Poisson($\lambda$) distribution. To test $H_0: \lambda = 1$ against $H_a: \lambda = 2$, consider the test: $$\phi(X) = \begin{cases} 1 & X > 3\\ 0 & X \leq 3 \end{cases}$$    
-
-    a. What is the probability of making a Type I error?
-    a. What is the probability of making a Type II error?
-    
